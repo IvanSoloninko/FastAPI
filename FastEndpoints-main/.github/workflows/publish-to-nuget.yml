@@ -1,0 +1,28 @@
+name: Publish Nuget Package
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .Net SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.x
+
+      - name: Run Tests
+        run: dotnet test FastEndpoints.sln --configuration Release --verbosity minimal
+
+      - name: Make Nuget Packages
+        run: dotnet pack -c Release
+
+      - name: Publish To Nuget
+        run: dotnet nuget push Src/*/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Web\Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="MartinCostello.Logging.XUnit" Version="0.3.0" />
+    </ItemGroup>
+
+</Project>
